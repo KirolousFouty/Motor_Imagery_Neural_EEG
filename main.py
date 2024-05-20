@@ -45,8 +45,12 @@ def process_subject(signals_file, filtered_file, labels_file, trial_file, fs):
     best_K = None
 
     # Iterate over electrodes, frequency bands, and values of K
+    e = 1;
     for electrode in range(signals.shape[1]):
+        print ("Electrode: ", e)
+        e+=1
         for band in ['Mu', 'Beta']:
+            print("band: ", band)
             for K in range(1, 11):
                 # bandpass filter
                 if band == 'Mu':
@@ -58,7 +62,7 @@ def process_subject(signals_file, filtered_file, labels_file, trial_file, fs):
                 knn = KNeighborsClassifier(n_neighbors=K, metric='euclidean')
                 
                 # splitting the data for later evaluation
-                split_index = int(len(filtered) * 0.8)
+                split_index = int(len(filtered) * 0.9)
                 filtered_train = np.resize(filtered[:split_index], (split_index, 15))
                 filtered_test = np.resize(filtered[split_index:], (len(filtered) - split_index, 15))
                 
@@ -92,7 +96,7 @@ def process_subject(signals_file, filtered_file, labels_file, trial_file, fs):
                 labels_pred = knn.predict(filtered_test)
                 error = 0
                 error += np.mean(labels_pred != labels_test)
-                print (error / 10)
+                print("error:", error / 10)
 
                 # updating the best combination
                 if error < min_error:
@@ -113,5 +117,5 @@ for i in range(1, 4):
     trial_file = f"Subject{i}_Trial.csv"
     fs = 512
     print()
-    print(f"Subject {i}")
+    print(f"Subject: {i}")
     process_subject(signals_file, filtered_file, labels_file, trial_file, fs)
