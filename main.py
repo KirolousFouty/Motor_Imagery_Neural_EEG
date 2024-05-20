@@ -92,7 +92,7 @@ def process_subject(signals_file, filtered_file, labels_file, trial_file, fs):
 
                 # evaluation
                 # print(f"filtered_test size: {filtered_test.shape}")
-                # print(f"labels_test size: {labels_test.shape}")                
+                # print(f"labels_test size: {labels_test.shape}")
                 labels_pred = knn.predict(filtered_test)
                 error = 0
                 error += np.mean(labels_pred != labels_test)
