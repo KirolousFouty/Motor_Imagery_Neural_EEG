@@ -58,7 +58,7 @@ def process_subject(signals_file, filtered_file, labels_file, trial_file, fs):
                 knn = KNeighborsClassifier(n_neighbors=K, metric='euclidean')
                 
                 # splitting the data for later evaluation
-                split_index = int(len(filtered) * 0.8)
+                split_index = int(len(filtered) * 0.9)
                 filtered_train = np.resize(filtered[:split_index], (split_index, 15))
                 filtered_test = np.resize(filtered[split_index:], (len(filtered) - split_index, 15))
                 
@@ -88,7 +88,7 @@ def process_subject(signals_file, filtered_file, labels_file, trial_file, fs):
 
                 # evaluation
                 # print(f"filtered_test size: {filtered_test.shape}")
-                # print(f"labels_test size: {labels_test.shape}")                
+                # print(f"labels_test size: {labels_test.shape}")
                 labels_pred = knn.predict(filtered_test)
                 error = 0
                 error += np.mean(labels_pred != labels_test)
